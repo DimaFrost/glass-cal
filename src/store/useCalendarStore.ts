@@ -37,12 +37,28 @@ export const useCalendarStore = create<CalendarState>()((set, get) => ({
       selectedDate: new Date(),
 
       addEvent: (eventData) => {
+        const state = get();
+        const now = new Date();
+        const selectedDate = state.selectedDate;
+        
+        // Set the appropriate start dates based on the backlog level and selected date
+        let monthStart: Date | undefined;
+        let weekStart: Date | undefined;
+        
+        if (eventData.backlogLevel === 'month') {
+          monthStart = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+        } else if (eventData.backlogLevel === 'week') {
+          weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
+        }
+        
         const newEvent: Event = {
           ...eventData,
           id: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substr(2, 9),
           backlogSource: eventData.backlogLevel, // Set the original backlog source
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          monthStart,
+          weekStart,
+          createdAt: now,
+          updatedAt: now,
         };
         
         set((state) => ({

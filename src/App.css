@@ -83,3 +83,38 @@
   background: rgba(255, 255, 255, 0.2);
   border: 2px dashed rgba(255, 255, 255, 0.4);
 }
+
+/* Fix for react-beautiful-dnd positioning issues */
+[data-rbd-draggable-id] {
+  position: relative !important;
+}
+
+[data-rbd-drag-handle-draggable-id] {
+  position: relative !important;
+}
+
+/* Ensure proper positioning context for drag operations */
+.drag-drop-context {
+  position: relative;
+  transform: none !important;
+}
+
+/* Fix for backdrop-filter interference with drag positioning */
+.glass-card {
+  position: relative;
+  transform: translateZ(0);
+}
+
+/* Prevent horizontal overflow */
+body {
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+/* Ensure no horizontal scroll */
+* {
+  max-width: 100%;
+}

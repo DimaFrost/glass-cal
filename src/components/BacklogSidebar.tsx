@@ -21,7 +21,7 @@ export const BacklogSidebar: React.FC<BacklogSidebarProps> = ({
 }) => {
   return (
     <div 
-      className="w-80 bg-white/5 rounded-xl border border-white/20 p-4"
+      className="w-80 max-w-80 bg-white/5 rounded-xl border border-white/20 p-4"
       style={{
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)'

@@ -32,23 +32,23 @@ export const MonthView: React.FC<MonthViewProps> = ({ currentDate, onDateClick }
   });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 relative w-full overflow-hidden">
       {weeks.map((weekStart, weekIndex) => {
         const weekEnd = endOfWeek(weekStart, { weekStartsOn: 1 });
         const weekDays = eachDayOfInterval({ start: weekStart, end: weekEnd });
         const weekBacklog = getWeekBacklog(weekStart);
         
         return (
-          <div key={weekIndex} className="flex gap-4">
+          <div key={weekIndex} className="flex gap-4 relative w-full">
             {/* Week Backlog Section */}
-            <div className="w-48 flex-shrink-0">
+            <div className="w-32 flex-shrink-0">
               <Droppable droppableId={`week-backlog-${format(weekStart, 'yyyy-MM-dd')}`}>
                 {(provided, snapshot) => (
                   <GlassCard
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                     className={`
-                      p-3 min-h-[200px] transition-all duration-200
+                      p-2 min-h-[120px] transition-all duration-200
                       ${snapshot.isDraggingOver ? 'bg-white/20 border-2 border-dashed border-white/40' : ''}
                     `}
                     style={{
@@ -56,26 +56,26 @@ export const MonthView: React.FC<MonthViewProps> = ({ currentDate, onDateClick }
                       WebkitBackdropFilter: 'blur(12px)'
                     }}
                   >
-                    <div className="text-center mb-3">
-                      <h4 className="text-sm font-semibold text-white">
+                    <div className="text-center mb-2">
+                      <h4 className="text-xs font-semibold text-white">
                         Week {weekIndex + 1}
                       </h4>
-                      <p className="text-xs text-white/60">Week Backlog</p>
+                      <p className="text-xs text-white/60">Backlog</p>
                     </div>
                     
                     <div className="space-y-1">
                       {weekBacklog.map((event) => (
                         <div
                           key={event.id}
-                          className="text-xs p-2 bg-white/20 rounded text-white truncate"
+                          className="text-xs p-1 bg-white/20 rounded text-white truncate"
                         >
                           {event.title}
                         </div>
                       ))}
                       
                       {weekBacklog.length === 0 && (
-                        <div className="text-xs text-white/40 text-center py-4">
-                          Drop month backlog items here
+                        <div className="text-xs text-white/40 text-center py-2">
+                          Drop items here
                         </div>
                       )}
                     </div>
@@ -86,8 +86,8 @@ export const MonthView: React.FC<MonthViewProps> = ({ currentDate, onDateClick }
             </div>
             
             {/* Week Days */}
-            <div className="flex-1">
-              <div className="grid grid-cols-7 gap-1">
+            <div className="flex-1 w-full">
+              <div className="grid grid-cols-7 gap-1 w-full">
                 {weekDays.map((day) => {
                   const dayEvents = getDayEvents(day);
                   const isCurrentDay = isToday(day);
@@ -100,7 +100,7 @@ export const MonthView: React.FC<MonthViewProps> = ({ currentDate, onDateClick }
                           ref={provided.innerRef}
                           {...provided.droppableProps}
                           className={`
-                            h-20 p-2 cursor-pointer transition-all duration-200
+                            h-[120px] p-2 cursor-pointer transition-all duration-200
                             ${isCurrentDay ? 'bg-blue-500/30 border-blue-400/50' : ''}
                             ${!isCurrentMonth ? 'opacity-50' : ''}
                             ${snapshot.isDraggingOver ? 'bg-white/20 border-2 border-dashed border-white/40' : ''}
@@ -116,7 +116,7 @@ export const MonthView: React.FC<MonthViewProps> = ({ currentDate, onDateClick }
                               {format(day, 'd')}
                             </div>
                             <div className="flex-1 overflow-hidden">
-                              {dayEvents.slice(0, 2).map((event) => (
+                              {dayEvents.slice(0, 4).map((event) => (
                                 <div
                                   key={event.id}
                                   className="text-xs p-1 bg-white/20 rounded mb-1 truncate"
@@ -124,9 +124,9 @@ export const MonthView: React.FC<MonthViewProps> = ({ currentDate, onDateClick }
                                   {event.title}
                                 </div>
                               ))}
-                              {dayEvents.length > 2 && (
+                              {dayEvents.length > 4 && (
                                 <div className="text-xs text-white/60">
-                                  +{dayEvents.length - 2}
+                                  +{dayEvents.length - 4}
                                 </div>
                               )}
                               {dayEvents.length === 0 && (

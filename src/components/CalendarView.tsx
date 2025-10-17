@@ -216,16 +216,13 @@ export const CalendarView: React.FC = () => {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 drag-drop-context w-full overflow-x-hidden">
         {/* Sticky Navigation Header */}
         <div className="sticky top-0 z-50 bg-gradient-to-br from-purple-900/95 via-blue-900/95 to-indigo-900/95 backdrop-blur-md border-b border-white/10 p-4">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between">
-              {/* Left: View Title and Navigation */}
+              {/* Left: Navigation and View Title */}
               <div className="flex items-center gap-6">
-                <h1 className="text-2xl font-bold text-white">
-                  {getViewTitle()}
-                </h1>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={navigatePrevious}
@@ -248,6 +245,9 @@ export const CalendarView: React.FC = () => {
                     →
                   </button>
                 </div>
+                <h1 className="text-2xl font-bold text-white">
+                  {getViewTitle()}
+                </h1>
               </div>
               
               {/* Right: Zoom Selector */}
@@ -260,50 +260,23 @@ export const CalendarView: React.FC = () => {
         </div>
 
         {/* Main Content */}
-        <div className="p-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex gap-6">
-              {/* Calendar View */}
-              <div className="flex-1">
-                {renderCalendarView()}
-              </div>
-
-              {/* Sticky Backlog Sidebar */}
-              <div className="flex-shrink-0">
-                <div className="sticky top-20">
-                  <BacklogSidebar
-                    level={currentView.type}
-                    title={getCurrentLevelTitle()}
-                    events={getCurrentLevelEvents()}
-                    onAddEvent={handleAddEvent}
-                    onEditEvent={handleEditEvent}
-                  />
-                </div>
-              </div>
+        <div className="px-6 py-6 w-full overflow-hidden">
+          <div className="flex gap-6 w-full max-w-none">
+            {/* Calendar View */}
+            <div className="flex-1 min-w-0">
+              {renderCalendarView()}
             </div>
 
-            {/* Instructions */}
-            <div className="mt-12 bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
-              <h3 className="text-lg font-semibold text-white mb-4">How to Use</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white/80">
-                <div>
-                  <h4 className="font-medium mb-2">Hierarchical Planning</h4>
-                  <ul className="text-sm space-y-1">
-                    <li>• Start with broad year-level goals</li>
-                    <li>• Break down into monthly objectives</li>
-                    <li>• Plan weekly priorities</li>
-                    <li>• Schedule daily tasks</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-medium mb-2">Calendar Views</h4>
-                  <ul className="text-sm space-y-1">
-                    <li>• Switch between zoom levels at the top</li>
-                    <li>• Click dates to navigate</li>
-                    <li>• Backlog sidebar shows current level</li>
-                    <li>• Drag events between levels</li>
-                  </ul>
-                </div>
+            {/* Sticky Backlog Sidebar */}
+            <div className="flex-shrink-0 mr-0">
+              <div className="sticky top-24">
+                <BacklogSidebar
+                  level={currentView.type}
+                  title={getCurrentLevelTitle()}
+                  events={getCurrentLevelEvents()}
+                  onAddEvent={handleAddEvent}
+                  onEditEvent={handleEditEvent}
+                />
               </div>
             </div>
           </div>
